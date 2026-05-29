@@ -1,0 +1,120 @@
+Business question:
+
+(1) Are churned customers minority or majority?
+-----------------------------------------------
+
+Based on the chart, churned customers (Exited = 1) are a slight minority, while non-churned customers (Exited = 0) are the majority.
+
+Approximate counts from the graph:
+
+Exited = 0 (Stayed customers): ~2,050
+Exited = 1 (Churned customers): ~1,950
+
+Business insight:
+
+The dataset is fairly balanced, but churned customers are slightly fewer than retained customers.
+This means churn prediction will not have a severe class imbalance problem.
+
+==========================================================================================================
+
+(2) do older customers churn more?
+--------------------------------------------------
+
+From this boxplot, yes, older customers appear to churn more.
+
+Reasoning:
+
+Customers who did not churn (Exited = 0) have a median age around 49 years.
+Customers who churned (Exited = 1) have a median age around 35 years.
+
+But notice something important: the churned group has a wider spread, and the upper age range overlaps heavily with non-churned customers.
+
+So based on this plot alone, the answer is actually:
+
+❌ No, older customers do not churn more.
+✅ Younger customers seem to churn slightly more, because the churned group's median age is lower.
+
+Business conclusion:
+
+Age may influence churn, but age alone is not a strong indicator. Further analysis (churn rate by age groups) would give a clearer answer.
+
+=======================================================================================================================
+
+(3) are expensive plans causing churn?
+------------------------------------------------
+
+Based on this boxplot, higher monthly charges may be associated with churn, but we cannot say expensive plans directly cause churn.
+
+Observations:
+
+Non-churned customers (Exited = 0) → median MonthlyCharge ≈ 95
+Churned customers (Exited = 1) → median MonthlyCharge ≈ 120
+
+This shows customers who churned tend to have higher monthly charges.
+
+Business insight:
+✅ Customers paying more appear more likely to churn.
+⚠️ But this is correlation, not causation — expensive plans might churn because:
+
+Customers feel plans are overpriced
+Competitors offer better value
+High-paying customers have higher expectations
+
+Conclusion:
+
+Yes, expensive plans seem associated with higher churn, but further analysis is needed to confirm if pricing is causing churn.
+
+=====================================================================================================================
+
+(4) does poor network quality increase churn?
+------------------------------------------------------
+
+Based on this boxplot, poor network quality does not appear to strongly increase churn.
+
+Observations:
+
+Non-churned customers (Exited = 0) → median NetworkScore ≈ 56
+Churned customers (Exited = 1) → median NetworkScore ≈ 48
+
+The churned customers have a slightly lower network score, which suggests poorer network quality may contribute to churn.
+
+However:
+
+The distributions overlap heavily.
+Both groups have similar ranges (≈ 0–100).
+The difference in medians is not very large.
+
+Business conclusion:
+
+Poorer network quality may slightly increase churn, but NetworkScore alone does not seem to be a strong churn driver. Further statistical testing or feature importance analysis would confirm its impact.
+
+=========================================================================================================================================
+
+(Q) find the strongest churn driver before ML 
+-----------------------------------------------------
+
+From the correlation heatmap, look at the correlation values with Exited (churn). The features with the strongest absolute correlation are:
+
+Feature	Correlation with Churn (Exited)	Interpretation
+Gender	-0.33	Strongest churn relationship
+Age	-0.29	Older/younger customers show churn pattern
+IsActiveMember	-0.16	Active members churn less
+MonthlyCharge	0.13	Higher charges slightly increase churn
+NetworkScore	-0.087	Weak impact
+Others	Near 0	Minimal linear relationship
+Strongest churn driver before ML:
+
+🥇 Gender (-0.33) → strongest correlation
+🥈 Age (-0.29) → second strongest
+🥉 IsActiveMember (-0.16) → third strongest
+
+Business conclusion:
+
+Before machine learning, Gender and Age appear to be the strongest churn drivers from correlation analysis. However, correlation only captures linear relationships — ML feature importance (Random Forest/XGBoost/SHAP) can reveal stronger hidden patterns.
+======================================================================================================================
+
+Why stratify?
+
+→ Keeps churn ratio same in train and validation.
+
+================================================================================================================
